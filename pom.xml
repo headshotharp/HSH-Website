@@ -1,0 +1,98 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>de.headshotharp.web</groupId>
+    <artifactId>hsh-website</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>HSH Website</name>
+    <packaging>pom</packaging>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.0.0</version>
+        <relativePath />
+    </parent>
+
+    <modules>
+        <module>hsh-database</module>
+        <module>hsh-webserver</module>
+        <module>hsh-data-exchange-plugin</module>
+    </modules>
+
+    <properties>
+        <java.version>17</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!-- versions -->
+        <papermc.version>1.19.2-R0.1-SNAPSHOT</papermc.version>
+        <plugin-base.version>1.19.2-1.0</plugin-base.version>
+        <plugin-hibernate.version>1.19.2-1.0</plugin-hibernate.version>
+        <commons-io.version>2.8.0</commons-io.version>
+        <reflections.version>0.10.2</reflections.version>
+        <gherkin-extension.version>1.4</gherkin-extension.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>de.headshotharp.web</groupId>
+                <artifactId>hsh-database</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.papermc.paper</groupId>
+                <artifactId>paper-api</artifactId>
+                <version>${papermc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.headshotharp.minecraft</groupId>
+                <artifactId>plugin-base</artifactId>
+                <version>${plugin-base.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.headshotharp.minecraft</groupId>
+                <artifactId>plugin-hibernate</artifactId>
+                <version>${plugin-hibernate.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.reflections</groupId>
+                <artifactId>reflections</artifactId>
+                <version>${reflections.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.gmasil</groupId>
+                <artifactId>gherkin-extension-jupiter</artifactId>
+                <version>${gherkin-extension.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <repositories>
+        <repository>
+            <id>GMasil Nexus</id>
+            <url>https://nexus.gmasil.de/repository/maven-releases/</url>
+        </repository>
+        <repository>
+            <id>papermc</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>nexus</id>
+            <url>https://nexus.gmasil.de/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus</id>
+            <url>https://nexus.gmasil.de/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+</project>
