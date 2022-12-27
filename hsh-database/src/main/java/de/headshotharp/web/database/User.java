@@ -14,12 +14,15 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "HSH_USER")
@@ -44,6 +47,9 @@ public class User implements DataAccessObject {
     @ManyToOne(cascade = { CascadeType.DETACH, CascadeType.PERSIST })
     @JoinColumn(name = "ROLE_ID")
     private Role role;
+
+    private @Default long placedBlocks = 0;
+    private @Default long brokenBlocks = 0;
 
     public void setRole(Role role) {
         if (this.role != null) {

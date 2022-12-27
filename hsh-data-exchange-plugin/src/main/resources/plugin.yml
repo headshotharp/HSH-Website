@@ -1,14 +1,16 @@
 name: HSH-Data-Exchange
-main: de.headshotharp.dataexchange.Plugin
+main: de.headshotharp.web.plugin.DataExchangePlugin
 version: 1.19.2
 api-version: 1.19
+api: []
 author: HeadShotHarp
 description: Data-Exchange Plugin for PaperMC 1.19.2
 commands:
-  chestsort:
-    description: Controls ChestSort
+  hsh:
+    description: Desc
     usage: |
            /<command> create <central/user> <material>
            /<command> delete <central/user> [confirm]
-           /<command> reset <central/user> [confirm]
-           /<command> info
+  blocks:
+    description: Shows block statistics
+    usage: /blocks
