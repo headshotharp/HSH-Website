@@ -16,6 +16,8 @@ public class PlayerInteractListener implements Listener {
         this.dp = dp;
     }
 
+    // TODO: cache and flush if changed
+
     @EventHandler(priority = EventPriority.LOW)
     public void onBlockBreak(BlockBreakEvent event) {
         if (!event.isCancelled()) {

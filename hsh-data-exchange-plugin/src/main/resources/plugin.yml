@@ -1,6 +1,6 @@
 name: HSH-Data-Exchange
 main: de.headshotharp.web.plugin.DataExchangePlugin
-version: 1.19.2
+version: 1.19.3
 api-version: 1.19
 api: []
 author: HeadShotHarp
@@ -11,6 +11,11 @@ commands:
     usage: |
            /<command> create <central/user> <material>
            /<command> delete <central/user> [confirm]
+  pm:
+    description: Permissions Manager
+    usage: |
+           /<command> role create <name>
+           /<command> role promote <name>
   blocks:
     description: Shows block statistics
     usage: /blocks

@@ -17,6 +17,8 @@ import jakarta.persistence.PreRemove;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,6 +27,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity(name = "HSH_ROLE")
 @Table(name = "HSH_ROLE")
 public class Role implements DataAccessObject {
@@ -44,9 +47,9 @@ public class Role implements DataAccessObject {
     private int power;
 
     @OneToMany(mappedBy = "role", cascade = { CascadeType.DETACH, CascadeType.PERSIST })
-    private Set<User> users = new HashSet<>();
+    private @Default Set<User> users = new HashSet<>();
 
-    private List<String> permissions = new LinkedList<>();
+    private @Default List<String> permissions = new LinkedList<>();
 
     @PreRemove
     private void preRemove() {

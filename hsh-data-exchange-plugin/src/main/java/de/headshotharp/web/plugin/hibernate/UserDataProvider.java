@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.bukkit.entity.Player;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import de.headshotharp.plugin.hibernate.GenericDataProvider;
+import de.headshotharp.web.database.Role;
 import de.headshotharp.web.database.User;
 
 public class UserDataProvider extends GenericDataProvider<User> {
@@ -15,14 +17,23 @@ public class UserDataProvider extends GenericDataProvider<User> {
         super(sessionFactory);
     }
 
+    public UserDataProvider(Session session) {
+        super(session);
+    }
+
     @Override
     public Class<User> getEntityClass() {
         return User.class;
     }
 
-    public void createUser(Player player) {
-        User user = User.builder().username(player.getName()).uuid(player.getUniqueId().toString()).build();
+    public Optional<User> createUser(Player player, Role role) {
+        User user = User.builder()
+                .username(player.getName())
+                .uuid(player.getUniqueId().toString())
+                .role(role)
+                .build();
         persist(user);
+        return findByPlayer(player);
     }
 
     public List<User> findAllUsers() {

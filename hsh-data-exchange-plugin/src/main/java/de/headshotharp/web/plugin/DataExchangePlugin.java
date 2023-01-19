@@ -1,17 +1,22 @@
 package de.headshotharp.web.plugin;
 
+import java.io.IOException;
+
 import de.headshotharp.plugin.base.LoggablePlugin;
+import de.headshotharp.plugin.base.command.CommandRegistry;
 import de.headshotharp.plugin.base.config.ConfigService;
 import de.headshotharp.web.database.User;
 import de.headshotharp.web.plugin.command.BlocksCommand;
+import de.headshotharp.web.plugin.command.permissions.PromoteCommand;
 import de.headshotharp.web.plugin.config.Config;
+import de.headshotharp.web.plugin.dataimport.DataImportService;
 import de.headshotharp.web.plugin.hibernate.DataProvider;
+import de.headshotharp.web.plugin.listener.ChatListener;
 import de.headshotharp.web.plugin.listener.PlayerInteractListener;
 import de.headshotharp.web.plugin.listener.PlayerJoinListener;
+import de.headshotharp.web.plugin.permissions.PermissionService;
 
 public class DataExchangePlugin extends LoggablePlugin {
-
-    private boolean enabledSuccessful = false;
 
     @Override
     public void onEnable() {
@@ -20,51 +25,47 @@ public class DataExchangePlugin extends LoggablePlugin {
             if (!configService.getConfigFile().exists()) {
                 configService.saveConfig(Config.getDefaultConfig());
             }
-        } catch (Exception e) {
-            error("Error while saving default config", e);
-            return;
+        } catch (IOException e) {
+            warn("Could not save default config", e);
         }
         Config config;
         try {
             config = configService.readConfig();
         } catch (Exception e) {
-            error("Error while loading config", e);
-            return;
+            throw new IllegalStateException("Error while loading config", e);
         }
         DataProvider dp;
         try {
             dp = new DataProvider(config.getDatabase(), User.class);
             info("Connected to database");
         } catch (Exception e) {
-            error("Error while connecting to database", e);
-            return;
+            throw new IllegalStateException("Error while connecting to database", e);
         }
+        PermissionService permissionService = new PermissionService(this, dp);
         try {
-            PlayerJoinListener playerJoinListener = new PlayerJoinListener(dp);
+            PlayerJoinListener playerJoinListener = new PlayerJoinListener(dp, permissionService);
             getServer().getPluginManager().registerEvents(playerJoinListener, this);
             PlayerInteractListener playerInteractListener = new PlayerInteractListener(dp);
             getServer().getPluginManager().registerEvents(playerInteractListener, this);
+            ChatListener chatListener = new ChatListener(this, permissionService);
+            getServer().getPluginManager().registerEvents(chatListener, this);
         } catch (Exception e) {
-            error("Error while registering listeners", e);
-            return;
+            throw new IllegalStateException("Error while registering listeners", e);
         }
         try {
-            /*-
-            CommandRegistry<DataExchangePlugin> commandRegistry = new CommandRegistry<>(this, DataExchangePlugin.class);
-            getCommand("data").setExecutor(commandRegistry);
-            getCommand("data").setTabCompleter(commandRegistry);
-            */
+            // permissions
+            CommandRegistry<DataExchangePlugin> permissionsCommand = new CommandRegistry<>(this,
+                    DataExchangePlugin.class, PromoteCommand.class.getPackageName(), dp, permissionService);
+            getCommand("pm").setExecutor(permissionsCommand);
+            getCommand("pm").setTabCompleter(permissionsCommand);
+            // blocks
             BlocksCommand blocksCommand = new BlocksCommand(dp);
             getCommand("blocks").setExecutor(blocksCommand);
             getCommand("blocks").setTabCompleter(blocksCommand);
         } catch (Exception e) {
-            error("Error while registering commands", e);
-            return;
+            throw new IllegalStateException("Error while registering commands", e);
         }
-        enabledSuccessful = true;
-    }
-
-    public boolean isEnabledSuccessful() {
-        return enabledSuccessful;
+        // import data
+        new DataImportService(getName(), dp).importData();
     }
 }
