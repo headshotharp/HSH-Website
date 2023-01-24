@@ -27,14 +27,13 @@ public class ChatListener implements Listener {
             Player player = event.getPlayer();
             String prefix = permissionService.getPlayerPrefix(player);
             String world = player.getLocation().getWorld().getName();
-            Component message = Component.join(JoinConfiguration.noSeparators(), //
-                    text(NamedTextColor.WHITE, "[" + world + "]"), //
-                    text(NamedTextColor.DARK_GREEN, prefix), //
-                    text(NamedTextColor.WHITE, " "), //
-                    player.displayName(), //
-                    text(NamedTextColor.WHITE, ": "), //
-                    event.message() //
-            );
+            Component message = Component.join(JoinConfiguration.noSeparators(),
+                    text(NamedTextColor.WHITE, "[" + world + "]"),
+                    text(NamedTextColor.DARK_GREEN, prefix),
+                    text(NamedTextColor.WHITE, " "),
+                    player.displayName(),
+                    text(NamedTextColor.WHITE, ": "),
+                    event.message());
             plugin.getServer().sendMessage(message);
             event.setCancelled(true);
         }

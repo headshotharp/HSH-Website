@@ -54,14 +54,10 @@ public class DataExchangePlugin extends LoggablePlugin {
         }
         try {
             // permissions
-            CommandRegistry<DataExchangePlugin> permissionsCommand = new CommandRegistry<>(this,
-                    DataExchangePlugin.class, PromoteCommand.class.getPackageName(), dp, permissionService);
-            getCommand("pm").setExecutor(permissionsCommand);
-            getCommand("pm").setTabCompleter(permissionsCommand);
+            new CommandRegistry<>("pm", this, DataExchangePlugin.class, PromoteCommand.class, true, dp,
+                    permissionService).registerCommands();
             // blocks
-            BlocksCommand blocksCommand = new BlocksCommand(dp);
-            getCommand("blocks").setExecutor(blocksCommand);
-            getCommand("blocks").setTabCompleter(blocksCommand);
+            new BlocksCommand(this, dp).registerCommands();
         } catch (Exception e) {
             throw new IllegalStateException("Error while registering commands", e);
         }

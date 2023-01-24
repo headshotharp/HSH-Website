@@ -36,10 +36,36 @@ public class PermissionService {
         prefixes.remove(player);
     }
 
+    public void refreshAllPermissions() {
+        try (Session session = dp.openTransaction()) {
+            refreshAllPermissions(session);
+            dp.commitTransaction(session);
+        }
+    }
+
+    public void refreshAllPermissions(Session session) {
+        List<Role> roles = dp.role(session).findAll();
+        Map<String, Role> uuidRoleMap = new HashMap<>();
+        for (Role role : roles) {
+            for (User user : role.getUsers()) {
+                uuidRoleMap.put(user.getUuid(), role);
+            }
+        }
+        for (Player player : plugin.getServer().getOnlinePlayers()) {
+            Role role = uuidRoleMap.get(player.getUniqueId().toString());
+            if (role != null && role.getPermissions() != null) {
+                setPermissions(player, role.getPermissions());
+            } else {
+                resetPermissions(player);
+            }
+        }
+    }
+
     public void setPermissions(Player player) {
-        Session session = dp.openTransaction();
-        setPermissions(player, session);
-        dp.commitTransaction(session);
+        try (Session session = dp.openTransaction()) {
+            setPermissions(player, session);
+            dp.commitTransaction(session);
+        }
     }
 
     public void setPermissions(Player player, Session session) {

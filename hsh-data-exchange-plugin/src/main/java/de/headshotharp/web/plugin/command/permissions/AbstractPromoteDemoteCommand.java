@@ -1,4 +1,4 @@
-package de.headshotharp.web.plugin.command.permissions.generic;
+package de.headshotharp.web.plugin.command.permissions;
 
 import java.util.LinkedList;
 import java.util.List;

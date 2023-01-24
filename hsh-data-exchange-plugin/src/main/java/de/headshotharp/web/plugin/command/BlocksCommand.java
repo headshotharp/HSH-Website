@@ -4,28 +4,25 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
+import de.headshotharp.plugin.base.command.generic.ExecutableCommand;
 import de.headshotharp.web.database.User;
+import de.headshotharp.web.plugin.DataExchangePlugin;
 import de.headshotharp.web.plugin.hibernate.DataProvider;
 
-public class BlocksCommand implements CommandExecutor, TabCompleter {
+public class BlocksCommand extends ExecutableCommand<DataExchangePlugin> {
 
     private DataProvider dp;
 
-    public BlocksCommand(DataProvider dp) {
+    public BlocksCommand(DataExchangePlugin plugin, DataProvider dp) {
+        super(plugin);
         this.dp = dp;
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label,
-            @NotNull String[] args) {
+    public boolean execute(CommandSender sender, String command, String... args) {
         if (sender instanceof Player player) {
             Optional<User> user = dp.user().findByPlayer(player);
             if (user.isPresent()) {
@@ -40,8 +37,22 @@ public class BlocksCommand implements CommandExecutor, TabCompleter {
     }
 
     @Override
-    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command,
-            @NotNull String label, @NotNull String[] args) {
+    public List<String> onTabComplete(CommandSender sender, String command, String... args) {
         return new LinkedList<>();
+    }
+
+    @Override
+    public boolean isForPlayerOnly() {
+        return true;
+    }
+
+    @Override
+    public String usage() {
+        return "/blocks";
+    }
+
+    @Override
+    public String getName() {
+        return "blocks";
     }
 }

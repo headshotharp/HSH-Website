@@ -35,6 +35,16 @@ public class RoleDataProvider extends GenericDataProvider<Role> {
                 (builder, criteria, root, predicates) -> predicates.add(builder.equal(root.get("name"), name)));
     }
 
+    public Optional<Role> findByNameStartingWith(String prefix) {
+        return findByPredicate(
+                (builder, criteria, root, predicates) -> predicates.add(builder.like(root.get("name"), prefix + "%")));
+    }
+
+    public Optional<Role> findByPower(int power) {
+        return findByPredicate(
+                (builder, criteria, root, predicates) -> predicates.add(builder.equal(root.get("power"), power)));
+    }
+
     public Optional<Role> findByLowestPower() {
         return findByPredicate(
                 (builder, criteria, root, predicates) -> criteria.orderBy(builder.asc(root.get("power"))), 0, 1);
