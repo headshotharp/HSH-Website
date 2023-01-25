@@ -10,7 +10,7 @@ import org.hibernate.Session;
 import de.headshotharp.web.database.Role;
 import de.headshotharp.web.plugin.DataExchangePlugin;
 import de.headshotharp.web.plugin.hibernate.DataProvider;
-import de.headshotharp.web.plugin.permissions.PermissionService;
+import de.headshotharp.web.plugin.service.PermissionService;
 
 public class RemovePermissionCommand extends AddPermissionCommand {
 

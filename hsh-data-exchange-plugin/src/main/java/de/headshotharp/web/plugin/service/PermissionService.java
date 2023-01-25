@@ -1,4 +1,4 @@
-package de.headshotharp.web.plugin.permissions;
+package de.headshotharp.web.plugin.service;
 
 import java.util.HashMap;
 import java.util.LinkedList;

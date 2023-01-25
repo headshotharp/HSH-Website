@@ -11,7 +11,7 @@ import de.headshotharp.plugin.base.command.generic.ExecutableCommand;
 import de.headshotharp.web.database.Role;
 import de.headshotharp.web.plugin.DataExchangePlugin;
 import de.headshotharp.web.plugin.hibernate.DataProvider;
-import de.headshotharp.web.plugin.permissions.PermissionService;
+import de.headshotharp.web.plugin.service.PermissionService;
 
 public class AddPermissionCommand extends ExecutableCommand<DataExchangePlugin> {
 

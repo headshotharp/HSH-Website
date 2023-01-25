@@ -6,7 +6,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 import de.headshotharp.web.plugin.DataExchangePlugin;
-import de.headshotharp.web.plugin.permissions.PermissionService;
+import de.headshotharp.web.plugin.service.PermissionService;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import lombok.AllArgsConstructor;
 import net.kyori.adventure.text.Component;

@@ -13,11 +13,13 @@ public class DataProvider {
     private SessionFactory sessionFactory;
     private UserDataProvider userDataProvider;
     private RoleDataProvider roleDataProvider;
+    private UserValueHistoryDataProvider userValueHistoryDataProvider;
 
     public DataProvider(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
         userDataProvider = new UserDataProvider(sessionFactory);
         roleDataProvider = new RoleDataProvider(sessionFactory);
+        userValueHistoryDataProvider = new UserValueHistoryDataProvider(sessionFactory);
     }
 
     public DataProvider(HibernateConfig hibernateConfig, Class<?> baseClass) {
@@ -57,5 +59,13 @@ public class DataProvider {
 
     public RoleDataProvider role(Session session) {
         return new RoleDataProvider(session);
+    }
+
+    public UserValueHistoryDataProvider userValueHistory() {
+        return userValueHistoryDataProvider;
+    }
+
+    public UserValueHistoryDataProvider userValueHistory(Session session) {
+        return new UserValueHistoryDataProvider(session);
     }
 }
