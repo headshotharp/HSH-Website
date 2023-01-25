@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import de.headshotharp.web.database.ChatEntry.ChatType;
 import de.headshotharp.web.database.generic.DataAccessObject;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -59,6 +60,9 @@ public class User implements DataAccessObject {
     @OneToMany(mappedBy = "user", cascade = { CascadeType.ALL })
     private @Default Set<UserValueHistory> valueHistory = new HashSet<>();
 
+    @OneToMany(mappedBy = "user", cascade = { CascadeType.ALL })
+    private @Default Set<ChatEntry> chat = new HashSet<>();
+
     public void setRole(Role role) {
         if (this.role != null) {
             this.role.getUsers().remove(this);
@@ -77,5 +81,14 @@ public class User implements DataAccessObject {
         history.setUser(this);
         valueHistory.add(history);
         return history;
+    }
+
+    public ChatEntry createChatEntry(String msg, ChatType type) {
+        ChatEntry chatEntry = new ChatEntry();
+        chatEntry.setMsg(msg);
+        chatEntry.setType(type);
+        chatEntry.setUser(this);
+        chat.add(chatEntry);
+        return chatEntry;
     }
 }

@@ -53,11 +53,11 @@ public class DataExchangePlugin extends LoggablePlugin {
         DayChangeService dayChangeService = new DayChangeService(dp);
         // listeners
         try {
-            PlayerJoinListener playerJoinListener = new PlayerJoinListener(dp, permissionService);
+            PlayerJoinListener playerJoinListener = new PlayerJoinListener(this, dp, permissionService);
             getServer().getPluginManager().registerEvents(playerJoinListener, this);
             PlayerInteractListener playerInteractListener = new PlayerInteractListener(dp);
             getServer().getPluginManager().registerEvents(playerInteractListener, this);
-            ChatListener chatListener = new ChatListener(this, permissionService);
+            ChatListener chatListener = new ChatListener(this, dp, permissionService);
             getServer().getPluginManager().registerEvents(chatListener, this);
         } catch (Exception e) {
             throw new IllegalStateException("Error while registering listeners", e);
