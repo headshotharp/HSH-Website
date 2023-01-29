@@ -11,12 +11,6 @@
     </parent>
 
     <dependencies>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-            <scope>provided</scope>
-        </dependency>
-    
 		<!-- local -->
         <dependency>
             <groupId>de.headshotharp.web</groupId>
